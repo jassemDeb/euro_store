@@ -55,12 +55,17 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/collections" className="text-gray-600 hover:text-[#B4941F] transition-colors">
-                  Femme
+                  Cuisine
                 </Link>
               </li>
               <li>
                 <Link href="/collections" className="text-gray-600 hover:text-[#B4941F] transition-colors">
-                  Enfant
+                  Soin du corps
+                </Link>
+              </li>
+              <li>
+                <Link href="/collections" className="text-gray-600 hover:text-[#B4941F] transition-colors">
+                  Aspiration
                 </Link>
               </li>
               <li>

@@ -87,8 +87,8 @@ export default function Login() {
             <Image
               src="/logo.png"
               alt="Logo"
-              width={150}
-              height={150}
+              width={300}
+              height={300}
               className="mx-auto"
             />
           </div>
@@ -114,7 +114,7 @@ export default function Login() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#7c3f61] focus:border-[#7c3f61] sm:text-sm"
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-black focus:border-[#B4941F] sm:text-sm"
                   />
                 </div>
               </div>
@@ -135,7 +135,7 @@ export default function Login() {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#7c3f61] focus:border-[#7c3f61] sm:text-sm"
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-black focus:border-[#B4941F] sm:text-sm"
                   />
                 </div>
               </div>
@@ -146,7 +146,7 @@ export default function Login() {
                     id="remember_me"
                     name="remember_me"
                     type="checkbox"
-                    className="h-4 w-4 text-[#7c3f61] focus:ring-[#7c3f61] border-gray-300 rounded"
+                    className="h-4 w-4 text-black focus:ring-[#B4941F] border-gray-300 rounded"
                   />
                   <label
                     htmlFor="remember_me"
@@ -159,7 +159,7 @@ export default function Login() {
                 <div className="text-sm">
                   <Link
                     href="/forgot-password"
-                    className="font-medium text-[#7c3f61] hover:text-[#B59851]"
+                    className="font-medium text-black hover:text-[#B59851]"
                   >
                     Forgot your password?
                   </Link>
@@ -174,7 +174,7 @@ export default function Login() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#7c3f61] hover:bg-[#B59851] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7c3f61]"
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-[#B59851] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7c3f61]"
                 >
                   {loading ? 'Loading...' : 'Sign in'}
                 </button>

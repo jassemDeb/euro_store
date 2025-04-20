@@ -116,14 +116,14 @@ export default function SearchPage() {
             <h1 className="text-3xl font-bold text-gray-900">Search Results</h1>
             {searchQuery && (
               <p className="text-sm text-gray-500">
-                Showing results for: <span className="font-medium text-[#7c3f61]">{searchQuery}</span>
+                Showing results for: <span className="font-medium text-black">{searchQuery}</span>
               </p>
             )}
           </div>
           <Button
             onClick={() => setShowFilters(!showFilters)}
             variant="outline"
-            className="border-[#7c3f61]/20 hover:border-[#7c3f61] hover:text-[#7c3f61]"
+            className="border-black/20 hover:border-[#B4941F] hover:text-[#B4941F]"
           >
             <SlidersHorizontal className="h-4 w-4 mr-2" />
             Filters
@@ -136,7 +136,7 @@ export default function SearchPage() {
           showFilters ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
         )}>
           <div className="overflow-hidden">
-            <div className="bg-white p-4 rounded-lg border border-[#7c3f61]/20 space-y-4">
+            <div className="bg-white p-4 rounded-lg border border-black/20 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Categories */}
                 <div className="space-y-2">
@@ -147,8 +147,8 @@ export default function SearchPage() {
                       className={cn(
                         "px-3 py-1 rounded-full text-sm",
                         selectedCategory === "all"
-                          ? "bg-[#7c3f61] text-white"
-                          : "bg-gray-100 hover:bg-[#7c3f61]/10"
+                          ? "bg-[#B4941F] text-white"
+                          : "bg-gray-100 hover:bg-[#B4941F]/10"
                       )}
                     >
                       All
@@ -160,8 +160,8 @@ export default function SearchPage() {
                         className={cn(
                           "px-3 py-1 rounded-full text-sm",
                           selectedCategory === category
-                            ? "bg-[#7c3f61] text-white"
-                            : "bg-gray-100 hover:bg-[#7c3f61]/10"
+                            ? "bg-[#B4941F] text-white"
+                            : "bg-gray-100 hover:bg-[#B4941F]/10"
                         )}
                       >
                         {category}
@@ -180,7 +180,7 @@ export default function SearchPage() {
                       min={metadata?.priceRange.min || 0}
                       step={10}
                       onValueChange={(value) => setPriceRange(value as [number, number])}
-                      className="w-full [&_[role=slider-track]]:bg-[#7c3f61] [&_[role=slider]]:bg-[#7c3f61] [&_[role=slider]]:border-[#7c3f61]"
+                      className="w-full [&_[role=slider-track]]:bg-[#B4941F] [&_[role=slider]]:bg-[#B4941F] [&_[role=slider]]:border-[#B4941F]"
                     />
                     <div className="flex justify-between mt-2 text-sm text-gray-500">
                       <span>TND {priceRange[0]}</span>
@@ -195,7 +195,7 @@ export default function SearchPage() {
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full rounded-md border border-[#7c3f61]/20 px-3 py-1.5 text-sm focus:border-[#7c3f61] focus:outline-none focus:ring-1 focus:ring-[#7c3f61]"
+                    className="w-full rounded-md border border-[#B4941F]/20 px-3 py-1.5 text-sm focus:border-[#B4941F] focus:outline-none focus:ring-1 focus:ring-[#B4941F]"
                   >
                     {sortOptions.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -209,22 +209,22 @@ export default function SearchPage() {
               {/* Active Filters */}
               <div className="flex flex-wrap gap-2">
                 {selectedCategory !== "all" && (
-                  <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-[#7c3f61]/10 text-sm">
+                  <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-[#B4941F]/10 text-sm">
                     <span>Category: {selectedCategory}</span>
                     <button
                       onClick={() => setSelectedCategory("all")}
-                      className="text-[#7c3f61] hover:text-[#B4941F]"
+                      className="text-[#B4941F] hover:text-[#B4941F]"
                     >
                       <X className="h-4 w-4" />
                     </button>
                   </div>
                 )}
                 {sortBy !== "relevance" && (
-                  <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-[#7c3f61]/10 text-sm">
+                  <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-[#B4941F]/10 text-sm">
                     <span>Sort: {sortOptions.find(o => o.value === sortBy)?.label}</span>
                     <button
                       onClick={() => setSortBy("relevance")}
-                      className="text-[#7c3f61] hover:text-[#B4941F]"
+                      className="text-[#B4941F] hover:text-[#B4941F]"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -237,7 +237,7 @@ export default function SearchPage() {
 
         {loading ? (
           <div className="flex items-center justify-center py-10">
-            <Loader2 className="h-10 w-10 animate-spin text-[#7c3f61]" />
+            <Loader2 className="h-10 w-10 animate-spin text-[#B4941F]" />
           </div>
         ) : error ? (
           <div className="flex items-center justify-center py-10">
@@ -260,7 +260,7 @@ export default function SearchPage() {
                   href={`/product/${product.id}`}
                   className="group"
                 >
-                  <div className="aspect-square relative overflow-hidden rounded-lg bg-gray-100 border border-[#7c3f61]/20 group-hover:border-[#7c3f61] transition-colors">
+                  <div className="aspect-square relative overflow-hidden rounded-lg bg-gray-100 border border-[#B4941F]/20 group-hover:border-[#B4941F] transition-colors">
                     {product.colorVariants[0]?.images[0] && (
                       <Image
                         src={product.colorVariants[0].images[0].url}
@@ -271,10 +271,10 @@ export default function SearchPage() {
                     )}
                   </div>
                   <div className="mt-4 space-y-1">
-                    <h3 className="text-sm font-medium text-gray-900 group-hover:text-[#7c3f61] transition-colors">
+                    <h3 className="text-sm font-medium text-gray-900 group-hover:text-[#B4941F] transition-colors">
                       {product.name}
                     </h3>
-                    <p className="text-sm font-medium text-[#7c3f61]">
+                    <p className="text-sm font-medium text-[#B4941F]">
                       TND {product.price.toFixed(2)}
                     </p>
                     <p className="text-sm text-gray-500 line-clamp-2">

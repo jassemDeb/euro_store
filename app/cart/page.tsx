@@ -57,25 +57,31 @@ export default function CartPage() {
   const handleSubmitOrder = async () => {
     setIsSubmitting(true);
     try {
+      const orderData = {
+        customerName: customerDetails.name,
+        phoneNumber: customerDetails.phone,
+        address: customerDetails.address,
+        totalAmount: total,
+        items: items.map((item) => ({
+          productId: Number(item.id), // Ensure productId is a number
+          quantity: item.quantity,
+          price: item.price,
+        })),
+      };
+      
+      console.log('Sending order data:', orderData);
+      
       const response = await fetch('/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          customerName: customerDetails.name,
-          phoneNumber: customerDetails.phone,
-          address: customerDetails.address,
-          totalAmount: total,
-          items: items.map((item) => ({
-            productId: item.id,
-            quantity: item.quantity,
-            price: item.price,
-          })),
-        }),
+        body: JSON.stringify(orderData),
       });
 
       if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        console.error('API error response:', errorData);
         throw new Error('Échec de la création de la commande');
       }
 
@@ -96,7 +102,7 @@ export default function CartPage() {
   return (
     <div className="min-h-screen bg-gray-50/50 py-12">
       <div className="max-w-7xl mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-8 text-[#7c3f61]">Panier</h1>
+        <h1 className="text-3xl font-bold mb-8 text-black">Panier</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Cart Items */}
@@ -107,7 +113,7 @@ export default function CartPage() {
                   <h2 className="text-xl font-medium text-gray-900 mb-4">Votre panier est vide</h2>
                   <p className="text-gray-500 mb-6">Il semble que vous n&apos;ayez encore rien ajouté</p>
                   <Link href="/collections">
-                    <Button className="bg-[#7c3f61] hover:bg-[#7c3f61]/90 text-white">
+                    <Button className="bg-black hover:bg-[#B4941F]/90 text-white">
                       Continuer vos achats
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
@@ -129,7 +135,7 @@ export default function CartPage() {
                         <div>
                           <h3 className="text-base font-medium text-gray-900">{item.name}</h3>
                         </div>
-                        <p className="text-base font-medium text-[#7c3f61]">
+                        <p className="text-base font-medium text-black">
                           {Number(item.price * item.quantity).toFixed(2)} TND
                         </p>
                       </div>
@@ -173,8 +179,8 @@ export default function CartPage() {
 
           {/* Order Summary */}
           <div className="lg:col-span-4">
-            <div className="bg-white rounded-xl shadow-sm p-6 space-y-6 sticky top-4 border border-[#7c3f61]/10">
-              <h2 className="text-lg font-semibold text-[#7c3f61]">Résumé de la commande</h2>
+            <div className="bg-white rounded-xl shadow-sm p-6 space-y-6 sticky top-4 border border-[#B4941F]/10">
+              <h2 className="text-lg font-semibold text-black">Résumé de la commande</h2>
 
               {/* Customer Details */}
               <div className="space-y-4">
@@ -185,7 +191,7 @@ export default function CartPage() {
                     value={customerDetails.name}
                     onChange={(e) => setCustomerDetails((prev) => ({ ...prev, name: e.target.value }))}
                     placeholder="Entrez votre nom complet"
-                    className="border-[#7c3f61]/20 focus:border-[#7c3f61] focus:ring-[#7c3f61]"
+                    className="border-[#7c3f61]/20 focus:border-black focus:ring-[#B4941F]"
                   />
                 </div>
                 <div>
@@ -195,7 +201,7 @@ export default function CartPage() {
                     value={customerDetails.phone}
                     onChange={(e) => setCustomerDetails((prev) => ({ ...prev, phone: e.target.value }))}
                     placeholder="Entrez votre numéro de téléphone"
-                    className="border-[#7c3f61]/20 focus:border-[#7c3f61] focus:ring-[#7c3f61]"
+                    className="border-[#7c3f61]/20 focus:border-black focus:ring-[#B4941F]"
                   />
                 </div>
                 <div>
@@ -205,7 +211,7 @@ export default function CartPage() {
                     value={customerDetails.address}
                     onChange={(e) => setCustomerDetails((prev) => ({ ...prev, address: e.target.value }))}
                     placeholder="Entrez votre adresse de livraison"
-                    className="border-[#7c3f61]/20 focus:border-[#7c3f61] focus:ring-[#7c3f61]"
+                    className="border-[#7c3f61]/20 focus:border-black focus:ring-[#B4941F]"
                   />
                 </div>
               </div>
@@ -214,20 +220,20 @@ export default function CartPage() {
               <div className="border-t border-[#7c3f61]/10 pt-4">
                 <div className="flex justify-between mb-2">
                   <span>Sous-total</span>
-                  <span className="text-[#7c3f61]">{totalPrice.toFixed(2)} TND</span>
+                  <span className="text-black">{totalPrice.toFixed(2)} TND</span>
                 </div>
                 <div className="flex justify-between mb-4">
                   <span>Frais de livraison</span>
-                  <span className="text-[#7c3f61]">{shipping.toFixed(2)} TND</span>
+                  <span className="text-black">{shipping.toFixed(2)} TND</span>
                 </div>
                 <div className="flex justify-between font-semibold">
                   <span>Total</span>
-                  <span className="text-[#7c3f61]">{total.toFixed(2)} TND</span>
+                  <span className="text-black">{total.toFixed(2)} TND</span>
                 </div>
               </div>
 
               <Button
-                className="w-full bg-[#7c3f61] hover:bg-[#7c3f61]/90 text-white"
+                className="w-full bg-black hover:bg-[#B4941F]/90 text-white"
                 onClick={handleConfirmOrder}
                 disabled={items.length === 0 || isSubmitting}
               >
@@ -243,7 +249,7 @@ export default function CartPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-[#7c3f61]">Confirmation de commande</h2>
+              <h2 className="text-xl font-semibold text-black">Confirmation de commande</h2>
               <button onClick={() => setShowConfirmation(false)} className="text-gray-500 hover:text-gray-700">
                 <X className="h-6 w-6" />
               </button>
@@ -273,7 +279,7 @@ export default function CartPage() {
                         {item.quantity}x @ {item.price.toFixed(2)} TND
                       </div>
                     </div>
-                    <span className="text-[#7c3f61]">{(item.quantity * item.price).toFixed(2)} TND</span>
+                    <span className="text-black">{(item.quantity * item.price).toFixed(2)} TND</span>
                   </div>
                 ))}
               </div>
@@ -281,15 +287,15 @@ export default function CartPage() {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span>Sous-total</span>
-                  <span className="text-[#7c3f61]">{totalPrice.toFixed(2)} TND</span>
+                  <span className="text-black">{totalPrice.toFixed(2)} TND</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Frais de livraison</span>
-                  <span className="text-[#7c3f61]">{shipping.toFixed(2)} TND</span>
+                  <span className="text-black">{shipping.toFixed(2)} TND</span>
                 </div>
                 <div className="flex justify-between font-semibold text-lg">
                   <span>Total</span>
-                  <span className="text-[#7c3f61]">{total.toFixed(2)} TND</span>
+                  <span className="text-black">{total.toFixed(2)} TND</span>
                 </div>
               </div>
               <div className="mt-6 space-y-4">
@@ -299,13 +305,13 @@ export default function CartPage() {
                 <div className="flex gap-4">
                   <Button
                     variant="outline"
-                    className="w-full border-[#7c3f61]/20 hover:bg-[#7c3f61]/5 text-[#7c3f61]"
+                    className="w-full border-[#B4941F]/20 hover:bg-[#B4941F]/5 text-[#B4941F]"
                     onClick={() => setShowConfirmation(false)}
                   >
                     Annuler
                   </Button>
                   <Button
-                    className="w-full bg-[#7c3f61] hover:bg-[#7c3f61]/90 text-white"
+                    className="w-full bg-black hover:bg-[#B4941F]/90 text-white"
                     onClick={handleSubmitOrder}
                     disabled={isSubmitting}
                   >

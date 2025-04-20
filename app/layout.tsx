@@ -9,11 +9,11 @@ import { CartDropdown } from "@/components/cart-dropdown";
 import Script from "next/script";
 
 const inter = Inter({ subsets: ['latin'] });
-const GA_TRACKING_ID = "G-QD0XSX38KE"; // Google Analytics Measurement ID
-const FB_PIXEL_ID = "739233504686068"; // Facebook Pixel ID
+const GA_TRACKING_ID = ""; // Google Analytics Measurement ID
+const FB_PIXEL_ID = ""; // Facebook Pixel ID
 
 export const metadata = {
-  title: 'AICHIC COUTURE | Mode Féminine Chic & Tendance',
+  title: 'Euro Store TN',
   description: 'Découvrez la collection exclusive de vêtements AICHIC COUTURE. Élégance, modernité et qualité pour toutes les femmes.',
   keywords: 'AICHIC COUTURE, vêtements, mode, femme, collection, qualité, élégance, tendance',
   authors: [{ name: 'AICHIC COUTURE' }],
@@ -28,7 +28,7 @@ export const metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'AICHIC COUTURE | Mode Féminine Chic & Tendance',
+    title: 'Euro Store TN',
     description: 'Découvrez la collection exclusive de vêtements AICHIC COUTURE. Élégance, modernité et qualité pour toutes les femmes.',
     url: 'https://www.aichic.tn',
     siteName: 'AICHIC COUTURE',
@@ -45,7 +45,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AICHIC COUTURE | Mode Féminine Chic & Tendance',
+    title: 'Euro Store TN',
     description: 'Découvrez la collection exclusive de vêtements AICHIC COUTURE. Élégance, modernité et qualité pour toutes les femmes.',
     images: ['/twitter-image.jpg'],
   },

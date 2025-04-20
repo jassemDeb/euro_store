@@ -8,69 +8,79 @@ export async function POST(req: Request) {
     const userId = cookieStore.get('userId'); // Get the user ID from cookies
 
     const body = await req.json();
+    console.log('Received order request body:', body);
+    
     const { customerName, phoneNumber, address, totalAmount, items } = body;
 
     // Validate required fields
-    if (!customerName || !phoneNumber || !address || !totalAmount || !items || !Array.isArray(items)) {
+    if (!customerName || !phoneNumber || !address || !totalAmount) {
+      console.error('Missing customer details:', { customerName, phoneNumber, address, totalAmount });
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Missing required customer fields', details: { customerName, phoneNumber, address, totalAmount } },
+        { status: 400 }
+      );
+    }
+    
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      console.error('Missing or invalid items array:', items);
+      return NextResponse.json(
+        { error: 'Missing or invalid items array', details: items },
         { status: 400 }
       );
     }
 
     // Validate each item and check stock
     for (const item of items) {
-      if (!item.productId || !item.quantity || !item.price || !item.size || !item.color) {
+      console.log('Validating item:', item);
+      
+      if (!item.productId || !item.quantity || !item.price) {
+        console.error('Invalid item data:', item);
         return NextResponse.json(
-          { error: 'Invalid item data: missing required fields' },
+          { 
+            error: 'Invalid item data: missing required fields (productId, quantity, price)', 
+            details: item 
+          },
           { status: 400 }
         );
       }
 
-      // Verify the product exists and get its color variant ID
-      const product = await prisma.product.findFirst({
+      // Verify the product exists
+      const product = await prisma.product.findUnique({
         where: { id: item.productId },
         include: {
-          colorVariants: {
-            where: {
-              color: item.color,
-            },
-            include: {
-              stocks: {
-                where: { size: item.size },
-              },
-            },
-          },
-        },
+          stocks: true
+        }
       });
 
       if (!product) {
+        console.error(`Product with ID ${item.productId} not found`);
         return NextResponse.json(
           { error: `Product with ID ${item.productId} not found` },
           { status: 404 }
         );
       }
 
-      if (product.colorVariants.length === 0) {
+      // Check if product is in stock
+      if (product.stocks.length > 0) {
+        const stock = product.stocks[0];
+        if (!stock.inStock) {
+          console.error(`Product ${item.productId} is out of stock`);
+          return NextResponse.json(
+            { error: `Product ${item.productId} is out of stock` },
+            { status: 400 }
+          );
+        }
+      } else {
+        console.error(`Stock information not found for product ${item.productId}`);
         return NextResponse.json(
-          { error: `Color variant ${item.color} not found for product ${item.productId}` },
-          { status: 404 }
-        );
-      }
-
-      const stock = product.colorVariants[0].stocks[0];
-
-      if (!stock || stock.quantity < item.quantity) {
-        return NextResponse.json(
-          { error: `Insufficient stock for product ${item.productId} (${item.color}, ${item.size})` },
+          { error: `Stock information not found for product ${item.productId}` },
           { status: 400 }
         );
       }
-
-      // Assign the found colorVariantId
-      item.colorVariantId = product.colorVariants[0].id;
     }
 
+    console.log('All items validated successfully, creating order');
+    
     // Create the order with validated items
     const order = await prisma.order.create({
       data: {
@@ -83,31 +93,28 @@ export async function POST(req: Request) {
         items: {
           create: items.map((item) => ({
             quantity: item.quantity,
-            size: item.size,
-            color: item.color,
             price: item.price,
             productId: item.productId,
-            colorVariantId: item.colorVariantId,
           })),
         },
       },
       include: {
         items: {
           include: {
-            product: true,
-            colorVariant: {
+            product: {
               include: {
                 images: {
                   where: { isMain: true },
                   take: 1,
-                },
-              },
-            },
-          },
+                }
+              }
+            }
+          }
         },
       },
     });
 
+    console.log('Order created successfully:', order.id);
     return NextResponse.json(order);
   } catch (error) {
     console.error('Error creating order:', error);

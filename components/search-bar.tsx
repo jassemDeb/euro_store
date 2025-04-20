@@ -99,16 +99,16 @@ const SearchBar = () => {
       </form>
 
       {showSuggestions && searchQuery.length >= 2 && (
-        <div className="absolute z-50 w-full md:w-[150%] left-0 md:-left-1/4 mt-2 bg-white rounded-xl shadow-2xl border border-[#7c3f61]/20 max-h-[80vh] md:max-h-[600px] overflow-y-auto">
+        <div className="absolute z-50 w-full md:w-[150%] left-0 md:-left-1/4 mt-2 bg-white rounded-xl shadow-2xl border border-[#B4941F]/20 max-h-[80vh] md:max-h-[600px] overflow-y-auto">
           {isLoading ? (
             <div className="p-4 md:p-6 text-center text-gray-500">Chargement...</div>
           ) : suggestions && suggestions.length > 0 ? (
-            <ul className="divide-y divide-[#7c3f61]/10">
+            <ul className="divide-y divide-[#B4941F]/10">
               {suggestions.map((product) => (
                 <li
                   key={product.id}
                   onClick={() => handleSuggestionClick(product.id.toString())}
-                  className="flex items-center gap-3 md:gap-6 p-4 md:p-6 hover:bg-[#7c3f61]/5 cursor-pointer transition-colors duration-200"
+                  className="flex items-center gap-3 md:gap-6 p-4 md:p-6 hover:bg-[#B4941F]/5 cursor-pointer transition-colors duration-200"
                 >
                   {product.images?.[0] && (
                     <div className="relative w-16 h-16 md:w-24 md:h-24 flex-shrink-0">
@@ -116,7 +116,7 @@ const SearchBar = () => {
                         src={product.images[0].url}
                         alt={product.name}
                         fill
-                        className="object-cover rounded-lg border border-[#7c3f61]/10"
+                        className="object-cover rounded-lg border border-[#B4941F]/10"
                         sizes="(max-width: 768px) 64px, 96px"
                       />
                     </div>
@@ -128,7 +128,7 @@ const SearchBar = () => {
                     <p className="text-xs md:text-sm text-gray-500 mb-2 line-clamp-2">
                       {product.description}
                     </p>
-                    <p className="text-base md:text-lg font-semibold text-[#7c3f61]">
+                    <p className="text-base md:text-lg font-semibold text-[#B4941F]">
                       TND {product.price.toFixed(2)}
                     </p>
                     <p className="text-xs md:text-sm text-gray-400 mt-1">
